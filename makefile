@@ -1,9 +1,9 @@
-APP=linked_list_test
+APP=linked_list_testcase
 GTEST_DIR=${HOME}/Study/EmbedProg/googleTest/googletest/googletest/
 
-FILES = linkedlist.c
+FILES = linked_list.c
 OBJ_FILES = $(patsubst %.c, %.o, $(FILES))
-HEADER = linkedlist.h
+HEADER = linked_list.h
 COPTS=-fprofile-arcs -ftest-coverage
 COV_OUTPUT=./cov_output
 

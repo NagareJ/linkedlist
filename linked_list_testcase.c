@@ -10,7 +10,7 @@ TEST(addtest,normal) {
     char str4[10]="third";
     char str5[10]="fourth";
     char str6[10]="fifth";
-    int i=0;
+    int i;
 
     linked_list *head = (struct linked_list*) malloc(sizeof(linked_list));
 
@@ -35,6 +35,7 @@ TEST(addtest,normal) {
 
     i=add_to_list(head,str6);
     EXPECT_EQ(6,i);
+
 }
 
 /***************************************************************************/
@@ -45,7 +46,7 @@ TEST(search,normal)
     char str2[15]="third";
 
     linked_list *found;
-    linked_list *head;
+    struct linked_list *head;
 
     head = (struct linked_list*) malloc(sizeof(linked_list));
     head->data=str;
@@ -53,19 +54,18 @@ TEST(search,normal)
 
 
     head->next = (struct linked_list*) malloc(sizeof(linked_list));
-    head->data=str1;
-    head->index=1;
+    head->next->data=str1;
+    head->next->index=1;
 
     head->next->next = (struct linked_list*) malloc(sizeof(linked_list));
-    head->next->index=2;
-    head->next->data=str2;
+    head->next->next->index=2;
+    head->next->next->data=str2;
 
-
-    head->next->next->next = 0;
-
+    head->next->next->next = NULL;
 
     found=search_from_list(head,(char *)"third");
-    EXPECT_EQ(found->index,2); //Should be index 2 with value "third"
+
+    EXPECT_EQ(found->index,2);
     EXPECT_STREQ(str2,found->data);
 }
 
@@ -131,32 +131,31 @@ TEST(display_item,add_to_list)
     EXPECT_STREQ(head->next->data,str1);
 
     i=add_to_list(head,str2);
-    display_list(head);
+    display_item(head);
     EXPECT_EQ(head->next->next->index,2);
-	//EXPECT_EQ of i and EXPECT_STREQ should be changed from here
     EXPECT_EQ(i,2);
     EXPECT_STREQ(head->next->next->data,str2);
 
     i=add_to_list(head,str3);
-    display_list(head);
+    display_item(head);
     EXPECT_EQ(head->next->next->next->index,3);
     EXPECT_EQ(i,3);
     EXPECT_STREQ(head->next->next->next->data,str3);
 
     i=add_to_list(head,str4);
-    display_list(head);
+    display_item(head);
     EXPECT_EQ(head->next->next->next->next->index,4);
     EXPECT_EQ(i,4);
     EXPECT_STREQ(head->next->next->next->next->data,str4);
 
     i=add_to_list(head,str5);
-    display_list(head);
+    display_item(head);
     EXPECT_EQ(head->next->next->next->next->next->index,5);
     EXPECT_EQ(i,5);
     EXPECT_STREQ(head->next->next->next->next->next->data,str5);
 
     i=add_to_list(head,str6);
-    display_list(head);
+    display_item(head);
     EXPECT_EQ(head->next->next->next->next->next->next->index,6);
     EXPECT_EQ(i,6);
     EXPECT_STREQ(head->next->next->next->next->next->next->data,str6);
@@ -175,14 +174,11 @@ TEST(display_list,normal)
     char str6[10]="fifth";
     int i;
 
-
     linked_list *head = (struct linked_list*) malloc(sizeof(linked_list));  
 
     head->next=NULL;
     head->data=str;
     head->index=0;
-
-
 
     i=add_to_list(head,str1);
     i=add_to_list(head,str2);
@@ -244,7 +240,6 @@ TEST(delete,normal)
     head->data=str;
     head->index=0;
 
-
     i=add_to_list(head,str1);
     i=add_to_list(head,str2);
     i=add_to_list(head,str3);
@@ -252,8 +247,7 @@ TEST(delete,normal)
     i=add_to_list(head,str5);
     i=add_to_list(head,str6);
 
-    EXPECT_EQ(delete_from_list(head,2),6);
-	display_list(head);
+    delete_from_list(head,2);
 
 }
 

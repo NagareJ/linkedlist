@@ -53,23 +53,6 @@ TEST(AddToList, empty_string) {
 	EXPECT_EQ(2, index);
 }
 
-//TEST(AddToList, empty_list) {
-//	char str[15] = "First %#?";
-//	char str1[10] = "Second å";
-//	char str2[20] = "third {([ ])}";
-//
-//	linked_list *head = (struct linked_list*) malloc(sizeof(linked_list));
-//	head = NULL;
-//	int index = 0;
-//
-//	index = add_to_list(head, str);
-//	EXPECT_EQ(0, index);
-//	index = add_to_list(head, str1);
-//	EXPECT_EQ(1, index);
-//	index = add_to_list(head, str2);
-//	EXPECT_EQ(2, index);
-//}
-
 TEST(DisplayItem, normal) {
 	char str[15] = "List Start";
 

@@ -1,33 +1,22 @@
 #include "linked_list.h"
 
 int add_to_list(linked_list*ll, char*s) {
-	if (ll) {
-		linked_list *current = ll;
-		while (current->next) {
-			current = current->next;
-		}
-		linked_list *element = (struct linked_list *)malloc(sizeof(linked_list));
-		if (!element) {
-			free(element);
-			return -1;
-		}
-		current->next = element;
-		char *data = (char *)malloc(strlen(s) * sizeof(char) + 1);
-		data = strdup(s);
-		element->data = data;
-		element->next = NULL;
-		element->index = current->index + 1;
-		return element->index;
+	linked_list *current = ll;
+	while (current->next) {
+		current = current->next;
 	}
-	else {
-		printf("\n\n\n Dont come there");
-		char *data = (char *)malloc(strlen(s) * sizeof(char) + 1);
-		data = strdup(s);
-		ll->data = data;
-		ll->next = NULL;
-		ll->index = 0;
-		return ll->index;
+	linked_list *element = (struct linked_list *)malloc(sizeof(linked_list));
+	if (!element) {
+		free(element);
+		return -1;
 	}
+	current->next = element;
+	char *data = (char *)malloc(strlen(s) * sizeof(char) + 1);
+	data = strdup(s);
+	element->data = data;
+	element->next = NULL;
+	element->index = current->index + 1;
+	return element->index;
 }
 int display_item(linked_list *ll) {
 	if (!ll) return -1;

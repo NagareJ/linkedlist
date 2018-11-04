@@ -1,5 +1,11 @@
 #include "linked_list.h"
 
+/*ADDING ELEMENT TO LINKED LIST*/
+/*	*This function adds an element to the last of the linked list
+	*Return last element index on success
+	*Return -1 when memory allocation for the new element fails
+*/
+
 int add_to_list(linked_list*ll, char*s) {
 	linked_list *current = ll;
 	while (current->next) {
@@ -8,7 +14,7 @@ int add_to_list(linked_list*ll, char*s) {
 	linked_list *element = (struct linked_list *)malloc(sizeof(linked_list));
 	if (!element) {
 		free(element);
-		return -1;
+		return -1; //ERROR: Can not allocate memory for new element
 	}
 	current->next = element;
 	char *data = (char *)malloc(strlen(s) * sizeof(char) + 1);
@@ -18,15 +24,28 @@ int add_to_list(linked_list*ll, char*s) {
 	element->index = current->index + 1;
 	return element->index;
 }
+
+/*	DISPLAY A SINGLE ELEMENT FROM THE LINKED LIST
+	*Return 0 when success
+	*Return -1 when element can't be found
+*/
+
 int display_item(linked_list *ll) {
-	if (!ll) return -1;
+	if (!ll) return -1;	//ERORR: NULL element
 	else {
 		printf("\nIndex %d: %s\n", ll->index, ll->data);
 		return 0;
 	}
 }
+
+/*	DISPLAY THE WHOLE LINKED LIST
+	*Display the whole linked list that the element passed in the parameter belongs to
+	*Return the total number of elements that belong to the linked list on success
+*/
+
 int display_list(linked_list *ll) {
 	int count = 0;
+	if (!ll) return -1; //ERROR: No element
 	linked_list *current = ll;
 	while (current) {
 		count++;
@@ -35,6 +54,13 @@ int display_list(linked_list *ll) {
 	}
 	return count;
 }
+
+/*	SEARCH FOR AN ELEMENT IN LINKED LIST
+	*Search for an element that matches with the data string
+	*Return pointer to the element on success
+	*Return NULL if not found
+*/
+
 linked_list * search_from_list(linked_list *ll, char *s) {
 	linked_list *current = ll;
 	while (current) {
@@ -46,6 +72,12 @@ linked_list * search_from_list(linked_list *ll, char *s) {
 	}
 	return NULL;
 }
+
+/*	DELETE AN ELEMENT FROM LINKED LIST
+	*Return the remain number of elements of the linked list on success
+	*Return -1 on error
+*/
+
 int delete_from_list(linked_list *ll, int index) {
 	int count = 0;
 	linked_list *current = ll;
@@ -54,7 +86,7 @@ int delete_from_list(linked_list *ll, int index) {
 		count++;
 		current = current->next;
 	}
-	if (index > count - 1 || index < 0) return -1;
+	if (index > count - 1 || index < 0) return -1;	//ERORR: Index out of range
 	else if (index == 0) {
 		ll = ll->next;
 		free(previous);
@@ -96,13 +128,19 @@ int delete_from_list(linked_list *ll, int index) {
 			}
 			return count - 1;
 		}
-		else return -1;
+		else return -1;	// UNEXPECTED ERROR
 	}
-	return -1;
 }
+
+/*	EMPTY LINKED LIST
+	*Free the memory of every element of the linked list
+	*Return the number of element freed
+*/
+
 int empty_list(linked_list *ll) {
 	linked_list *current = ll;
 	int count = 0;
+	if (!ll) return -1; //ERROR: No element
 	while (ll) {
 		count++;
 		current = ll;
@@ -111,23 +149,34 @@ int empty_list(linked_list *ll) {
 	}
 	return count;
 }
+
+/*	SWAP TWO ELEMENTS
+	*Swap the data of two element of the same linked list
+	*Return 0 on success
+	*Return -1 on error
+*/
+
 int swap_items(linked_list *f, linked_list *s) {
-	if (!f) return -1;
-	else if (!s) return -1;
+	if (!f) return -1;		//ERORR: element not found
+	else if (!s) return -1;	//ERORR: element not found
 	else {
 		linked_list *current = f;
-		if (f->index < s->index) {
+		if (f->index < s->index) {	//Search from f element to s element
 			for (int i = 0; i < s->index - f->index; i++) {
-				current = current->next;
+				if (current->next)
+					current = current->next;
+				else return -1;				//ERORR: Not belongs to the same linked list
 			}
-			if (current != s) return -1;
+			if (current != s) return -1;	//ERORR: Not belongs to the same linked list
 		}
 		else {
 			current = s;
 			for (int i = 0; i < f->index - s->index; i++) {
-				current = current->next;
+				if (current->next)
+					current = current->next;
+				else return -1;				//ERORR: Not belongs to the same linked list
 			}
-			if (current != f) return -1;
+			if (current != f) return -1;	//ERORR: Not belongs to the same linked list
 		}
 		char *data = (char *)malloc(strlen(f->data) * sizeof(char) + 1);
 		data = strdup(f->data);
@@ -136,8 +185,15 @@ int swap_items(linked_list *f, linked_list *s) {
 		return 0;
 	}
 }
+
+/*	SORT LINKED LIST IN ASCENDING ORDER
+	*Sort the linked list that the element passed into parameter belongs to in ascending order based on data string
+	*Return 0 on success
+	*Return -1 on error
+*/
+
 int sort_list(linked_list *ll) {
-	if(!ll) return -1;
+	if(!ll) return -1;			//ERROR: NULL element
 	linked_list *current = ll;
 	char *temp_str;
 	int len = linkedlist_status(ll);
@@ -162,9 +218,16 @@ int sort_list(linked_list *ll) {
 	}
 	return 0;
 }
+
+/*	CHECK THE STATUS OF LINKED LIST
+	*Check the status of linked list based on total number of elements
+	*Return total number of elements belongs the the linked list
+*/
+
 int linkedlist_status(linked_list *ll) {
 	linked_list *current = ll;
 	int count = 0;
+	if (!ll) return -1; //ERROR: No element
 	while(current){
 		count++;
 		current = current->next;

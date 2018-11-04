@@ -137,7 +137,7 @@ TEST(DisplayList, empty_list) {
 	linked_list *head = (struct linked_list*) malloc(sizeof(linked_list));
 	head = NULL;
 
-	EXPECT_EQ(0, display_list(head));
+	EXPECT_EQ(-1, display_list(head));
 }
 
 TEST(SearchFromList, normal)
@@ -285,8 +285,9 @@ TEST(DeleteFromList, delete_head_element)
 	i = add_to_list(head, str5);
 	i = add_to_list(head, str6);
 
+	linked_list *temp = head->next;
 	int result = delete_from_list(head, 0);
-	head = head->next; //Have not found way to change the value of head
+	head = temp; //Have not found way to change the value of head
 	EXPECT_EQ(6, result);
 	EXPECT_EQ(head->index, 0);
 	EXPECT_STREQ(head->data, str1);
@@ -350,7 +351,7 @@ TEST(EmptyList, normal) {
 TEST(EmptyList, empty_empty_list) {
 	linked_list *head = (struct linked_list*) malloc(sizeof(linked_list));
 	head = NULL;
-	EXPECT_EQ(0, empty_list(head));
+	EXPECT_EQ(-1, empty_list(head));
 }
 
 TEST(EmptyList, middle_node) {
@@ -610,5 +611,5 @@ TEST(Status, empty_list) {
 	linked_list *head = (struct linked_list*) malloc(sizeof(linked_list));
 	head = NULL;
 
-	EXPECT_EQ(0, linkedlist_status(head));
+	EXPECT_EQ(-1, linkedlist_status(head));
 }

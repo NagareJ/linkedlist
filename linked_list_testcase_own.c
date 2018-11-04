@@ -9,6 +9,7 @@ TEST(AddToList, normal) {
 
 	linked_list *head = (struct linked_list*) malloc(sizeof(linked_list));
 	head->next = NULL;
+	head->previous = NULL;
 	head->data = str;
 	head->index = 0;
 	int index;
@@ -26,6 +27,7 @@ TEST(AddToList, special_character) {
 
 	linked_list *head = (struct linked_list*) malloc(sizeof(linked_list));
 	head->next = NULL;
+	head->previous = NULL;
 	head->data = str;
 	head->index = 0;
 	int index;
@@ -43,6 +45,7 @@ TEST(AddToList, empty_string) {
 
 	linked_list *head = (struct linked_list*) malloc(sizeof(linked_list));
 	head->next = NULL;
+	head->previous = NULL;
 	head->data = str;
 	head->index = 0;
 	int index;
@@ -59,6 +62,7 @@ TEST(DisplayItem, normal) {
 	linked_list *head = (struct linked_list*) malloc(sizeof(linked_list));
 
 	head->next = NULL;
+	head->previous = NULL;
 	head->data = str;
 	head->index = 0;
 
@@ -73,6 +77,7 @@ TEST(DisplayItem, special_character) {
 
 	linked_list *head = (struct linked_list*) malloc(sizeof(linked_list));
 	head->next = NULL;
+	head->previous = NULL;
 	head->data = str;
 	head->index = 0;
 
@@ -87,6 +92,7 @@ TEST(DisplayItem, item_not_found) {
 	char str[15] = "&First %#?";
 	linked_list *head = (struct linked_list*) malloc(sizeof(linked_list));
 	head->next = NULL;
+	head->previous = NULL;
 	head->data = str;
 	head->index = 0;
 
@@ -103,6 +109,7 @@ TEST(DisplayList, normal) {
 	linked_list *head = (struct linked_list*) malloc(sizeof(linked_list));
 
 	head->next = NULL;
+	head->previous = NULL;
 	head->data = str;
 	head->index = 0;
 
@@ -123,6 +130,7 @@ TEST(DisplayList, special_character) {
 	linked_list *head = (struct linked_list*) malloc(sizeof(linked_list));
 
 	head->next = NULL;
+	head->previous = NULL;
 	head->data = str;
 	head->index = 0;
 
@@ -137,7 +145,7 @@ TEST(DisplayList, empty_list) {
 	linked_list *head = (struct linked_list*) malloc(sizeof(linked_list));
 	head = NULL;
 
-	EXPECT_EQ(0, display_list(head));
+	EXPECT_EQ(-1, display_list(head));
 }
 
 TEST(SearchFromList, normal)
@@ -151,6 +159,7 @@ TEST(SearchFromList, normal)
 
 	head = (struct linked_list*) malloc(sizeof(linked_list));
 	head->next = NULL;
+	head->previous = NULL;
 	head->data = str;
 	head->index = 0;
 
@@ -174,6 +183,7 @@ TEST(SearchFromList, special_character)
 
 	head = (struct linked_list*) malloc(sizeof(linked_list));
 	head->next = NULL;
+	head->previous = NULL;
 	head->data = str;
 	head->index = 0;
 
@@ -195,6 +205,7 @@ TEST(SearchFromList, not_found)
 	linked_list *head = (struct linked_list*) malloc(sizeof(linked_list));
 
 	head->next = NULL;
+	head->previous = NULL;
 	head->data = str;
 	head->index = 0;
 
@@ -217,6 +228,7 @@ TEST(DeleteFromList, normal)
 	linked_list *head = (struct linked_list*) malloc(sizeof(linked_list));
 
 	head->next = NULL;
+	head->previous = NULL;
 	head->data = str;
 	head->index = 0;
 
@@ -248,6 +260,7 @@ TEST(DeleteFromList, index_not_found)
 	linked_list *head = (struct linked_list*) malloc(sizeof(linked_list));
 
 	head->next = NULL;
+	head->previous = NULL;
 	head->data = str;
 	head->index = 0;
 
@@ -275,6 +288,7 @@ TEST(DeleteFromList, delete_head_element)
 	linked_list *head = (struct linked_list*) malloc(sizeof(linked_list));
 
 	head->next = NULL;
+	head->previous = NULL;
 	head->data = str;
 	head->index = 0;
 
@@ -285,13 +299,16 @@ TEST(DeleteFromList, delete_head_element)
 	i = add_to_list(head, str5);
 	i = add_to_list(head, str6);
 
+	linked_list *temp = head->next;
 	int result = delete_from_list(head, 0);
-	head = head->next; //Have not found way to change the value of head
+	head = temp;
 	EXPECT_EQ(6, result);
 	EXPECT_EQ(head->index, 0);
 	EXPECT_STREQ(head->data, str1);
+	EXPECT_EQ((int *)head->previous, (int *)NULL);
 	EXPECT_EQ(head->next->next->index, 2);
 	EXPECT_STREQ(head->next->next->data, str3);
+	display_list(head);
 }
 
 TEST(DeleteFromList, delete_last_element)
@@ -308,6 +325,7 @@ TEST(DeleteFromList, delete_last_element)
 	linked_list *head = (struct linked_list*) malloc(sizeof(linked_list));
 
 	head->next = NULL;
+	head->previous = NULL;
 	head->data = str;
 	head->index = 0;
 
@@ -335,6 +353,7 @@ TEST(EmptyList, normal) {
 	linked_list *head = (struct linked_list*) malloc(sizeof(linked_list));
 
 	head->next = NULL;
+	head->previous = NULL;
 	head->data = str;
 	head->index = 0;
 
@@ -350,7 +369,7 @@ TEST(EmptyList, normal) {
 TEST(EmptyList, empty_empty_list) {
 	linked_list *head = (struct linked_list*) malloc(sizeof(linked_list));
 	head = NULL;
-	EXPECT_EQ(0, empty_list(head));
+	EXPECT_EQ(-1, empty_list(head));
 }
 
 TEST(EmptyList, middle_node) {
@@ -366,6 +385,7 @@ TEST(EmptyList, middle_node) {
 	linked_list *head = (struct linked_list*) malloc(sizeof(linked_list));
 
 	head->next = NULL;
+	head->previous = NULL;
 	head->data = str;
 	head->index = 0;
 
@@ -375,7 +395,7 @@ TEST(EmptyList, middle_node) {
 	i = add_to_list(head, str4);
 	i = add_to_list(head, str5);
 	i = add_to_list(head, str6);
-	EXPECT_EQ(5, empty_list(head->next->next));
+	EXPECT_EQ(7, empty_list(head->next->next));
 }
 
 TEST(SwapItem, normal) {
@@ -391,6 +411,7 @@ TEST(SwapItem, normal) {
 	linked_list *head = (struct linked_list*) malloc(sizeof(linked_list));
 
 	head->next = NULL;
+	head->previous = NULL;
 	head->data = str;
 	head->index = 0;
 
@@ -421,6 +442,7 @@ TEST(SwapItem, outsider) {
 	linked_list *head = (struct linked_list*) malloc(sizeof(linked_list));
 
 	head->next = NULL;
+	head->previous = NULL;
 	head->data = str;
 	head->index = 0;
 
@@ -433,6 +455,7 @@ TEST(SwapItem, outsider) {
 
 	linked_list *other = (struct linked_list*) malloc(sizeof(linked_list));
 	other->next = NULL;
+	head->previous = NULL;
 	other->data = str;
 	other->index = 0;
 	i = add_to_list(other, str5);
@@ -457,6 +480,7 @@ TEST(SwapItem, swap_null) {
 	linked_list *head = (struct linked_list*) malloc(sizeof(linked_list));
 
 	head->next = NULL;
+	head->previous = NULL;
 	head->data = str;
 	head->index = 0;
 
@@ -487,6 +511,7 @@ TEST(SortList, normal)
 	linked_list *head = (struct linked_list*) malloc(sizeof(linked_list));
 
 	head->next = NULL;
+	head->previous = NULL;
 	head->data = str;
 	head->index = 0;
 
@@ -532,6 +557,7 @@ TEST(SortList, special_character)
 	linked_list *head = (struct linked_list*) malloc(sizeof(linked_list));
 
 	head->next = NULL;
+	head->previous = NULL;
 	head->data = str;
 	head->index = 0;
 
@@ -567,6 +593,7 @@ TEST(Status, normal) {
 	linked_list *head = (struct linked_list*) malloc(sizeof(linked_list));
 
 	head->next = NULL;
+	head->previous = NULL;
 	head->data = str;
 	head->index = 0;
 
@@ -593,6 +620,7 @@ TEST(Status, middle_list) {
 	linked_list *head = (struct linked_list*) malloc(sizeof(linked_list));
 
 	head->next = NULL;
+	head->previous = NULL;
 	head->data = str;
 	head->index = 0;
 
@@ -603,12 +631,12 @@ TEST(Status, middle_list) {
 	i = add_to_list(head, str5);
 	i = add_to_list(head, str6);
 
-	EXPECT_EQ(5, linkedlist_status(head->next->next));
+	EXPECT_EQ(7, linkedlist_status(head->next->next));
 }
 
 TEST(Status, empty_list) {
 	linked_list *head = (struct linked_list*) malloc(sizeof(linked_list));
 	head = NULL;
 
-	EXPECT_EQ(0, linkedlist_status(head));
+	EXPECT_EQ(-1, linkedlist_status(head));
 }
